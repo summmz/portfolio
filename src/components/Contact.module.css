@@ -1,0 +1,268 @@
+.contact {
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.overline {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.title span {
+  color: var(--accent-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.infoItem {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 50px;
+  height: 50px;
+  background: rgba(129, 140, 248, 0.1);
+  color: var(--accent-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.infoItem h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.infoItem p {
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.socials {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.socials a {
+  width: 45px;
+  height: 45px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.socials a:hover {
+  background: var(--accent-primary);
+  color: var(--bg-color);
+  transform: translateY(-5px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.2);
+}
+
+.submitBtn {
+  padding: 1rem 2.5rem;
+  background: var(--accent-primary);
+  color: var(--bg-color);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background: var(--accent-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(129, 140, 248, 0.6);
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.successMessage {
+  background: rgba(129, 140, 248, 0.05);
+  border: 1px solid rgba(129, 140, 248, 0.1);
+  padding: 3rem;
+  border-radius: 12px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.successIcon {
+  color: #10b981;
+  margin-bottom: 1rem;
+}
+
+.successMessage h3 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.successMessage p {
+  color: var(--text-secondary);
+  max-width: 300px;
+  margin-bottom: 1.5rem;
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .grid {
+    gap: 2.5rem;
+  }
+
+  .info {
+    gap: 1.5rem;
+  }
+
+  /* Compact info row on small screens */
+  .infoItem {
+    gap: 1rem;
+  }
+
+  .iconWrapper {
+    width: 42px;
+    height: 42px;
+  }
+
+  .infoItem h3 {
+    font-size: 1rem;
+  }
+
+  .infoItem p {
+    font-size: 0.875rem;
+    word-break: break-word;
+  }
+
+  .formGroup input,
+  .formGroup textarea {
+    padding: 0.85rem 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .submitBtn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .successMessage {
+    padding: 2rem 1.5rem;
+  }
+
+  .successMessage h3 {
+    font-size: 1.6rem;
+  }
+}

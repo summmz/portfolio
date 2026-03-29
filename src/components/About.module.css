@@ -1,0 +1,232 @@
+.about {
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.aboutContainer {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.imageCard {
+  position: relative;
+  padding: 1rem;
+  background: rgba(129, 140, 248, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 0.85;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+
+.imageCard:hover .profileImage {
+  filter: grayscale(0%);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 50%);
+}
+
+.experienceBadge {
+  position: absolute;
+  bottom: -2rem;
+  right: -2rem;
+  background: var(--accent-primary);
+  color: #000;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(129, 140, 248, 0.4);
+  z-index: 2;
+}
+
+.years {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.expText {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.title span {
+  color: var(--accent-primary);
+}
+
+.text {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+
+.statBox {
+  padding: 1.5rem;
+  background: rgba(129, 140, 248, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.statBox h3 {
+  font-size: 1.8rem;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.statBox p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.quote {
+  padding: 1.5rem;
+  border-left: 4px solid var(--accent-primary);
+  background: rgba(129, 140, 248, 0.03);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  border-radius: 0 16px 16px 0;
+}
+
+.hobbies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.hobbyTag {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(129, 140, 248, 0.08);
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  color: var(--accent-primary);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.hobbyTag:hover {
+  background: rgba(129, 140, 248, 0.18);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 992px) {
+  .aboutContainer {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  .imageWrapper {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutContainer {
+    gap: 3rem;
+  }
+
+  .imageWrapper {
+    max-width: 300px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 2rem 0;
+  }
+
+  .statBox {
+    padding: 1rem 0.5rem;
+  }
+
+  .statBox h3 {
+    font-size: 1.4rem;
+  }
+
+  .statBox p {
+    font-size: 0.75rem;
+  }
+
+  .experienceBadge {
+    bottom: -1rem;
+    right: -0.5rem;
+    padding: 1rem;
+  }
+
+  .years {
+    font-size: 1.8rem;
+  }
+
+  .quote {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
+
+  .hobbyTag {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.8rem;
+  }
+}

@@ -1,0 +1,266 @@
+.projects {
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.overline {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.title span {
+  color: var(--accent-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* ── Flip card ── */
+.flipWrapper {
+  perspective: 1000px;
+  height: 420px;
+  position: relative;
+}
+
+.flipWrapper:hover .cardFront {
+  transform: rotateY(-180deg);
+}
+
+.flipWrapper:hover .cardBack {
+  transform: rotateY(0deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+  overflow: hidden;
+}
+
+.cardFront {
+  background: var(--bg-secondary);
+  transform: rotateY(0deg);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardBack {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Front face */
+.image {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.thumbnail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.frontContent {
+  padding: 1rem 1.25rem 1.25rem;
+  background: var(--bg-secondary);
+}
+
+.projectTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+}
+
+/* Back face */
+.backTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #e0e7ff;
+  margin-bottom: 0.75rem;
+}
+
+.description {
+  color: #a5b4fc;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.tag {
+  background: rgba(129, 140, 248, 0.15);
+  color: var(--accent-primary);
+  padding: 0.3rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.linkBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.linkBtn:first-child {
+  background: rgba(255,255,255,0.08);
+  color: #e0e7ff;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.linkBtn:last-child {
+  background: var(--accent-primary);
+  color: #0f0e1a;
+}
+
+.linkBtn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+/* ── Mobile: disable flip, show stacked card instead ── */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .title { font-size: 2rem; }
+
+  /* On mobile flip is awkward — show a flat card with all info visible */
+  .flipWrapper {
+    height: auto;
+    perspective: none;
+  }
+
+  .flipWrapper:hover .cardFront {
+    transform: none;
+  }
+
+  .flipWrapper:hover .cardBack {
+    transform: none;
+  }
+
+  .cardFront {
+    position: relative;
+    inset: auto;
+    transform: none !important;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cardBack {
+    position: relative;
+    inset: auto;
+    transform: none !important;
+    border-radius: 0 0 16px 16px;
+    border-top: none;
+    padding: 1.25rem;
+    justify-content: flex-start;
+  }
+
+  /* stack front on top of back */
+  .flipWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cardFront {
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+  }
+
+  .image {
+    aspect-ratio: 16/9;
+    flex: none;
+    height: 200px;
+  }
+
+  .backTitle {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .links {
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .linkBtn {
+    flex: 1;
+    justify-content: center;
+    min-width: 100px;
+  }
+}

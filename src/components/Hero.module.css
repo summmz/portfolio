@@ -1,0 +1,219 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.glow {
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.heroContainer {
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  max-width: 800px;
+}
+
+.greeting {
+  font-size: 1.2rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.name {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.name span {
+  color: var(--accent-primary);
+}
+
+.role {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.typewriter {
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
+}
+
+.role span {
+  color: var(--accent-primary);
+}
+
+.description {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+.ctas {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  padding: 0.8rem 2rem;
+  background: var(--accent-primary);
+  color: #000;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primaryBtn:hover {
+  background: var(--accent-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(129, 140, 248, 0.6);
+}
+
+.secondaryBtn {
+  padding: 0.8rem 2rem;
+  background: rgba(129, 140, 248, 0.1);
+  border: 1.5px solid var(--accent-primary);
+  color: var(--accent-primary);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.secondaryBtn:hover {
+  background: rgba(129, 140, 248, 0.2);
+  transform: translateY(-3px);
+}
+
+.outlineBtn {
+  padding: 0.8rem 2rem;
+  border: 1.5px solid var(--accent-primary);
+  color: var(--accent-primary);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: transparent;
+}
+
+.outlineBtn:hover {
+  background: rgba(129, 140, 248, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(129, 140, 248, 0.2);
+}
+
+.scrollDown {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 50px;
+  border: 2px solid var(--accent-primary);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  opacity: 0.6;
+}
+
+.scrollIndicator {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+}
+
+@media (max-width: 992px) {
+  .name { font-size: 4rem; }
+  .role { font-size: 2rem; }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    align-items: flex-start;
+    padding-top: 7rem;
+  }
+
+  .glow {
+    width: 80vw;
+    height: 80vw;
+    top: 0;
+    right: -20%;
+    opacity: 0.6;
+  }
+
+  .greeting { font-size: 1rem; }
+
+  .name {
+    font-size: 2.8rem;
+    line-height: 1.15;
+  }
+
+  .role {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .ctas {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn,
+  .outlineBtn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    justify-content: center;
+  }
+
+  .scrollDown {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .name { font-size: 2.2rem; }
+  .role { font-size: 1.1rem; }
+}

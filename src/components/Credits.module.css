@@ -1,0 +1,88 @@
+.credits {
+  padding: 6rem 0;
+  background: rgba(129, 140, 248, 0.05);
+  border-top: 1px solid var(--glass-border);
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.heartIcon {
+  color: #ef4444;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.title span {
+  color: var(--accent-primary);
+}
+
+.description {
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.creditBox, .creditBoxLink {
+  padding: 1.5rem;
+  background: rgba(129, 140, 248, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.creditBoxLink:hover {
+  background: rgba(129, 140, 248, 0.08);
+  border-color: var(--accent-primary);
+  transform: translateY(-5px);
+}
+
+.icon {
+  color: var(--accent-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.creditBox h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.creditBox p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
