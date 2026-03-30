@@ -1,75 +1,95 @@
-# React + TypeScript + Vite
+# 🚀 Sumit's Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal developer portfolio built with React, Three.js, and Framer Motion — featuring 3D visuals, smooth animations, and a typewriter hero section.
 
-Currently, two official plugins are available:
+**Live:** [portfolio-umber-two-96fuv5sgui.vercel.app](https://portfolio-umber-two-96fuv5sgui.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+| Category | Technology |
+|---|---|
+| Framework | React 19, TypeScript |
+| Build Tool | Vite 8 |
+| 3D Graphics | Three.js, @react-three/fiber, @react-three/drei |
+| Animations | Framer Motion |
+| Tilt Effects | react-parallax-tilt |
+| Typewriter | react-simple-typewriter |
+| Icons | Lucide React |
+| Styling | CSS (custom) |
+| Deployment | Vercel |
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 18+
+- npm or pnpm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 1. Clone the repo
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/summmz/portfolio.git
+cd portfolio
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3. Start the dev server
+
+```bash
+npm run dev
+```
+
+The site will be available at `http://localhost:5173`.
+
+---
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start local development server |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+---
+
+## Project Structure
+
+```
+portfolio/
+├── public/          # Static assets
+├── src/             # Source code
+│   ├── components/  # React components
+│   ├── assets/      # Images, models, etc.
+│   └── main.tsx     # Entry point
+├── index.html
+├── vite.config.ts
+└── tsconfig.json
+```
+
+---
+
+## Deployment
+
+The site is deployed on **Vercel**. To deploy your own fork:
+
+1. Push the repo to GitHub
+2. Import it at [vercel.com](https://vercel.com)
+3. Vercel auto-detects Vite — no extra config needed
+4. Hit **Deploy**
+
+---
+
+## License
+
+MIT
