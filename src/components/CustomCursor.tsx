@@ -5,16 +5,17 @@ import styles from './CustomCursor.module.css';
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isTouch, setIsTouch] = useState(
+    () => typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches
+  );
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth springs for the cursor "lag" effect
   const springConfig = { damping: 25, stiffness: 150 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
-  // Faster spring for the center dot
   const dotX = useSpring(mouseX, { damping: 40, stiffness: 400 });
   const dotY = useSpring(mouseY, { damping: 40, stiffness: 400 });
 
@@ -24,12 +25,21 @@ const CustomCursor = () => {
   }, [mouseX, mouseY]);
 
   useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)');
+    const handler = (e: MediaQueryListEvent) => setIsTouch(!e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    if (isTouch) return;
+
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') || 
+        target.tagName === 'A' ||
+        target.tagName === 'BUTTON' ||
+        target.closest('a') ||
         target.closest('button') ||
         target.getAttribute('role') === 'button'
       ) {
@@ -53,11 +63,13 @@ const CustomCursor = () => {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [handleMouseMove]);
+  }, [isTouch, handleMouseMove]);
+
+  // Don't render anything on touch devices
+  if (isTouch) return null;
 
   return (
     <div className={styles.cursorWrapper}>
-      {/* Outer Glowing Ring (The "Agent" feel) */}
       <motion.div
         className={styles.cursor}
         style={{
@@ -71,7 +83,6 @@ const CustomCursor = () => {
         <div className={styles.cursorInner} />
       </motion.div>
 
-      {/* Trailing Glow / Aura */}
       <motion.div
         className={styles.cursorAura}
         style={{
@@ -86,7 +97,6 @@ const CustomCursor = () => {
         }}
       />
 
-      {/* Center Dot */}
       <motion.div
         className={styles.cursorDot}
         style={{

@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { motion, useSpring, useMotionValue, useVelocity, useTransform } from 'framer-motion';
 import styles from './BackgroundGlow.module.css';
 
+// True touch device = no fine pointer (mouse)
+const isTouchDevice = () =>
+  typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches;
+
 const BackgroundGlow: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isTouch, setIsTouch] = useState(isTouchDevice);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -19,35 +23,33 @@ const BackgroundGlow: React.FC = () => {
   const glowY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const mq = window.matchMedia('(pointer: fine)');
+    const handler = (e: MediaQueryListEvent) => setIsTouch(!e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isTouch) return;
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [isMobile, mouseX, mouseY]);
+  }, [isTouch, mouseX, mouseY]);
 
   return (
     <div className={styles.container}>
       <div className={styles.noise} />
 
-      {isMobile ? (
-        // On mobile: freely floating blob, no mouse tracking
+      {isTouch ? (
         <div className={styles.floatingBlob}>
           <div className={styles.sparkCore} />
           <div className={styles.sparkInner} />
           <div className={styles.sparkOuter} />
         </div>
       ) : (
-        // On desktop: follows mouse
         <motion.div
           className={styles.spark}
           style={{
