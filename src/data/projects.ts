@@ -14,7 +14,7 @@ export const projects: Project[] = [
   {
     title: 'Lunar-HR',
     description:
-      'A full-stack HR management SaaS built by an AI agent (Manus). Production-grade monorepo with a React frontend and Express/tRPC backend, backed by MySQL via Drizzle ORM.',
+      'A full-stack HR management SaaS with a React frontend and Express/tRPC backend, backed by MySQL via Drizzle ORM. Features employee data management, payroll operations, and streamlined HR workflows.',
     image: 'linear-gradient(135deg, #1a1040 0%, #2d1b69 40%, #4c2896 70%, #6d3fc2 100%)',
     thumbnail: lunarHrImg,
     github: 'https://github.com/summmz/Lunar-HR',
