@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { projects } from '../data/projects';
 import lunarHrImg from '../assets/lunar-hr.png';
+import nayepankhImg from '../assets/nayepankh.png';
 import styles from './Projects.module.css';
 
 const thumbnails: Record<string, string> = {
   'Lunar-HR': lunarHrImg,
+  'NayePankh Foundation': nayepankhImg,
 };
 
 const isTouchDevice = () =>
