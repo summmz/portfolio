@@ -32,4 +32,13 @@ export const projects: Project[] = [
     live: 'https://assignment-nayepankh.vercel.app/',
     tags: ['React', 'JavaScript', 'CSS', 'Groq', 'Responsive', 'Dark Mode', 'NGO'],
   },
+  {
+    title: 'Take Care of Nini',
+    description:
+      'A virtual boyfriend PWA built with love — featuring a tamagotchi-style pet with feed/pat/cuddle mechanics, AI chat powered by Google Gemini trained on real conversations, Firebase real-time chat with read receipts, simulated phone calls, daily love notes, push notifications via ntfy.sh, weather-aware responses, and dynamic time-of-day themes.',
+    image: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6e 40%, #7b2ff7 70%, #c084fc 100%)',
+    github: 'https://github.com/summmz/for-loml',
+    live: 'https://for-loml-topaz.vercel.app/',
+    tags: ['React', 'Vite', 'TypeScript', 'Firebase', 'PWA', 'Gemini API', 'ntfy.sh', 'Weather API'],
+  },
 ];
