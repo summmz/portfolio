@@ -48,8 +48,8 @@ export function GyroProvider({ children }: { children: ReactNode }) {
       const base = baseRef.current;
       const dg = Math.max(-14, Math.min(14, gamma - base.g));
       const db = Math.max(-18, Math.min(18, beta - base.b));
-      rawX.set(dg * 2.2);
-      rawY.set(-db * 1.5);
+      rawX.set(dg * 4.6);
+      rawY.set(-db * 3.2);
 
       const now = performance.now();
       if (now - lastRead.current > 120) {
