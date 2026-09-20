@@ -24,20 +24,29 @@ export function Background() {
 
   const attachRef = useRef<() => void>(() => undefined);
   const requestRef = useRef<() => void>(() => undefined);
+  const lastRead = useRef(0);
   const [gate, setGate] = useState<PermState>("hidden");
+  const [readout, setReadout] = useState("");
 
   useEffect(() => {
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
 
-    const setFromGyro = (gamma: number | null, beta: number | null) => {
-      if (gamma === null || beta === null) return;
-      const g = Math.max(-20, Math.min(20, gamma));
-      const b = Math.max(-30, Math.min(30, beta));
-      tx.set(g * 3.2);
-      ty.set(-b * 2.2);
+    const setFromGyro = (gamma: number, beta: number) => {
+      const g = Math.max(-18, Math.min(18, gamma));
+      const b = Math.max(-26, Math.min(26, beta));
+      tx.set(g * 5);
+      ty.set(-b * 3.4);
     };
-    const onOrientation = (e: DeviceOrientationEvent) =>
-      setFromGyro(e.gamma ?? null, e.beta ?? null);
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      const g = e.gamma ?? 0;
+      const b = e.beta ?? 0;
+      setFromGyro(g, b);
+      const now = performance.now();
+      if (now - lastRead.current > 120) {
+        lastRead.current = now;
+        setReadout(`g ${g.toFixed(1)}° b ${b.toFixed(1)}°`);
+      }
+    };
     const onPoint = (e: PointerEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
@@ -52,6 +61,7 @@ export function Background() {
         onOrientation,
         true
       );
+      setGate("granted");
     };
     attachRef.current = attach;
 
@@ -72,7 +82,6 @@ export function Background() {
           if (state === "granted") {
             attach();
             setGate("granted");
-            window.setTimeout(() => setGate("hidden"), 1800);
           } else {
             setGate("denied");
           }
@@ -150,9 +159,9 @@ export function Background() {
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="pointer-events-none fixed bottom-5 left-1/2 z-40 -translate-x-1/2 font-mono text-xs text-lime"
+          className="pointer-events-none fixed bottom-5 left-4 z-40 font-mono text-[10px] tracking-tight text-dim"
         >
-          Motion on ✓
+          {readout || "gyro — waiting"} gyro ✓
         </motion.span>
       )}
     </>
