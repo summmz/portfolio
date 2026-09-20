@@ -28,14 +28,13 @@ export function SectionMarquee({
   return (
     <div
       aria-hidden
-      className="relative overflow-hidden border-y border-edge/40 py-4"
-      style={{
-        transform: `rotate(${rotate}deg) scale(1.05)`,
-      }}
+      className="relative w-full overflow-hidden border-y border-edge/40 py-6"
     >
-      <div className="animate-marquee flex w-max">
-        <Half label={label} />
-        <Half label={label} />
+      <div style={{ transform: `rotate(${rotate}deg) scale(1.06)` }}>
+        <div className="animate-marquee flex w-max">
+          <Half label={label} />
+          <Half label={label} />
+        </div>
       </div>
     </div>
   );

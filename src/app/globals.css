@@ -126,12 +126,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
 }
 

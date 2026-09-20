@@ -181,7 +181,7 @@ export function Projects() {
         </Reveal>
 
         <div
-          className="mt-10 -mr-5 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4"
+          className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4"
           style={{ scrollbarWidth: "none" }}
         >
           {projects.map((project, i) => (

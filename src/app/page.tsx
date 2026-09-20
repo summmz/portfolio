@@ -12,7 +12,7 @@ import { profile } from "@/lib/data";
 
 export default function Home() {
   return (
-    <main id="main" className="relative">
+    <main id="main" className="relative overflow-x-clip">
       <div className="relative z-[1]">
         <Hero />
         <Marquee
