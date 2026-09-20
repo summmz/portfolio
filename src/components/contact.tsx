@@ -15,12 +15,17 @@ import {
   Loader2,
   Mail,
   MapPin,
+  AlertTriangle,
 } from "lucide-react";
 import { profile } from "@/lib/data";
 import { Reveal } from "@/components/reveal";
 
 const inputClasses =
   "w-full rounded-xl border border-edge bg-elevated/60 px-4 py-3.5 text-sm text-foreground placeholder:text-dim outline-none transition-all duration-300 focus:border-cyan/60 focus:shadow-[0_0_16px_rgba(34,211,238,0.15)]";
+
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ??
+  "https://formspree.io/f/xoevjwgo";
 
 const BIG = "text-[clamp(4rem,16vw,10.5rem)] font-display font-extrabold uppercase tracking-tight leading-[0.9]";
 
@@ -69,13 +74,33 @@ function FillHeadline() {
 }
 
 export function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle"
+  );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status !== "idle") return;
     setStatus("sending");
-    window.setTimeout(() => setStatus("sent"), 1200);
+
+    try {
+      const fd = new FormData(e.currentTarget);
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: fd,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.errors?.[0]?.message ?? `Formspree ${res.status}`);
+      }
+      setStatus("sent");
+      e.currentTarget.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -195,9 +220,13 @@ export function Contact() {
             <div className="animate-glow-pulse relative rounded-[1.25rem]">
               <div className="animated-border">
                 <form
+                  ref={formRef}
                   onSubmit={handleSubmit}
                   className="relative overflow-hidden rounded-[calc(1.25rem-1px)] bg-surface/95 p-7 sm:p-9"
                 >
+                  <div aria-hidden className="hidden">
+                    <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div
                     aria-hidden
                     className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cyan/15 blur-3xl"
@@ -284,6 +313,17 @@ export function Contact() {
                               >
                                 <CheckCircle2 className="h-4 w-4" />
                                 Message sent — thanks!
+                              </motion.span>
+                            ) : status === "error" ? (
+                              <motion.span
+                                key="error"
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -8 }}
+                                className="flex items-center gap-2 text-white"
+                              >
+                                <AlertTriangle className="h-4 w-4" />
+                                Failed — tap to retry
                               </motion.span>
                             ) : (
                               <motion.span
