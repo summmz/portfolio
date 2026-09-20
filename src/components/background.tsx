@@ -4,42 +4,39 @@ import { useEffect } from "react";
 import {
   motion,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
 
 export function Background() {
-  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const hue = useTransform(scrollYProgress, [0, 1], [0, 42]);
   const filter = useTransform(hue, (h) => `hue-rotate(${h}deg)`);
 
   const tx = useMotionValue(0);
   const ty = useMotionValue(0);
-  const x = useSpring(tx, { stiffness: 70, damping: 18, mass: 0.6 });
-  const y = useSpring(ty, { stiffness: 70, damping: 18, mass: 0.6 });
-  const rotate = useTransform(tx, (v) => v * 0.25);
+  const x = useSpring(tx, { stiffness: 80, damping: 16, mass: 0.5 });
+  const y = useSpring(ty, { stiffness: 80, damping: 16, mass: 0.5 });
+  const rotate = useTransform(tx, (v) => v * 0.3);
 
   useEffect(() => {
-    if (reduce) return;
-
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
 
     const setFromGyro = (gamma: number, beta: number) => {
+      if (gamma === null || beta === null) return;
       const g = Math.max(-20, Math.min(20, gamma ?? 0));
-      const b = Math.max(-32, Math.min(32, beta ?? 0));
-      tx.set(g * 2.4);
-      ty.set(-b * 1.8);
+      const b = Math.max(-30, Math.min(30, beta ?? 0));
+      tx.set(g * 3.2);
+      ty.set(-b * 2.2);
     };
     const onOrientation = (e: DeviceOrientationEvent) =>
       setFromGyro(e.gamma ?? 0, e.beta ?? 0);
     const onPoint = (e: PointerEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      tx.set(nx * (isCoarse ? 36 : 22));
-      ty.set(ny * (isCoarse ? 28 : 16));
+      tx.set(nx * (isCoarse ? 46 : 26));
+      ty.set(ny * (isCoarse ? 34 : 18));
     };
 
     if (isCoarse) {
@@ -48,21 +45,22 @@ export function Background() {
       const DOEvt = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
         requestPermission?: () => Promise<"granted" | "denied" | "default">;
       };
+      const attach = () => {
+        window.addEventListener("deviceorientation", onOrientation, true);
+        window.addEventListener("deviceorientationabsolute", onOrientation, true);
+      };
       const startListening = () => {
         if (typeof DOEvt?.requestPermission === "function") {
           DOEvt.requestPermission()
             .then((state) => {
-              if (state === "granted") {
-                window.addEventListener(
-                  "deviceorientation",
-                  onOrientation,
-                  true
-                );
-              }
+              if (state === "granted") attach();
+              console.info("[bg] gyroscope permission:", state);
             })
-            .catch(() => undefined);
+            .catch((err) =>
+              console.info("[bg] gyroscope permission error:", err)
+            );
         } else {
-          window.addEventListener("deviceorientation", onOrientation, true);
+          attach();
         }
       };
 
@@ -74,18 +72,25 @@ export function Background() {
       const onGesture = () => startListening();
       window.addEventListener("touchstart", onGesture, { once: true });
       window.addEventListener("click", onGesture, { once: true });
+      window.addEventListener("touchend", onGesture, { once: true });
 
       return () => {
         window.removeEventListener("pointermove", onPoint);
         window.removeEventListener("deviceorientation", onOrientation, true);
+        window.removeEventListener(
+          "deviceorientationabsolute",
+          onOrientation,
+          true
+        );
         window.removeEventListener("touchstart", onGesture);
         window.removeEventListener("click", onGesture);
+        window.removeEventListener("touchend", onGesture);
       };
     }
 
     window.addEventListener("pointermove", onPoint, { passive: true });
     return () => window.removeEventListener("pointermove", onPoint);
-  }, [reduce, tx, ty]);
+  }, [tx, ty]);
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
