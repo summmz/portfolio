@@ -75,14 +75,20 @@ function FillHeadline() {
 
 export function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
+  const submittingRef = useRef(false);
+  const attemptRef = useRef(0);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const [rateLimit, setRateLimit] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status !== "idle") return;
+    if (submittingRef.current || status !== "idle") return;
+    submittingRef.current = true;
+    const attempt = ++attemptRef.current;
     setStatus("sending");
+    setRateLimit(false);
 
     try {
       const fd = new FormData(e.currentTarget);
@@ -91,15 +97,26 @@ export function Contact() {
         body: fd,
         headers: { Accept: "application/json" },
       });
+      if (attempt !== attemptRef.current) return;
       if (!res.ok) {
+        if (res.status === 429) {
+          setRateLimit(true);
+          throw new Error("Formspree is rate-limiting submissions");
+        }
         const data = await res.json().catch(() => null);
         throw new Error(data?.errors?.[0]?.message ?? `Formspree ${res.status}`);
       }
       setStatus("sent");
       e.currentTarget.reset();
+      window.setTimeout(() => {
+        setStatus((s) => (s === "sent" ? "idle" : s));
+      }, 6000);
     } catch (err) {
       console.error(err);
+      if (attempt !== attemptRef.current) return;
       setStatus("error");
+    } finally {
+      submittingRef.current = false;
     }
   };
 
@@ -323,7 +340,9 @@ export function Contact() {
                                 className="flex items-center gap-2 text-white"
                               >
                                 <AlertTriangle className="h-4 w-4" />
-                                Failed — tap to retry
+                                {rateLimit
+                                  ? "Too fast — hang on a sec, then retry"
+                                  : "Failed — tap to retry"}
                               </motion.span>
                             ) : (
                               <motion.span
