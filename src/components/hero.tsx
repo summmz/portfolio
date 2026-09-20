@@ -6,11 +6,13 @@ import {
   motion,
   useReducedMotion,
   useScroll,
+  useTransform,
 } from "framer-motion";
 import { ArrowDown, ArrowUpRight, MoveDownRight, Sparkles } from "lucide-react";
 import { profile } from "@/lib/data";
 import { Scene } from "@/components/three-scene";
 import { Magnetic } from "@/components/magnetic";
+import { useGyro } from "@/components/gyro-provider";
 
 const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -64,6 +66,9 @@ function RotatingRole() {
 export function Hero() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const { gx, gy } = useGyro();
+  const hx = useTransform(gx, (v) => v * 1.25);
+  const hy = useTransform(gy, (v) => v * 0.85);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -76,7 +81,14 @@ export function Hero() {
       aria-label="Introduction"
       className="relative flex min-h-[100svh] items-center overflow-hidden"
     >
-      <div aria-hidden className="absolute inset-0">
+      <motion.div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          x: hx,
+          y: hy,
+        }}
+      >
         {!reduce ? (
           <Scene progress={scrollYProgress} />
         ) : (
@@ -93,7 +105,7 @@ export function Hero() {
           }}
         />
         <div className="noise absolute inset-0 opacity-[0.05] mix-blend-overlay" />
-      </div>
+      </motion.div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-28 pt-32 sm:px-10">
         <motion.div
