@@ -8,7 +8,7 @@ export function Background() {
   const { scrollYProgress } = useScroll();
   const hue = useTransform(scrollYProgress, [0, 1], [0, 42]);
   const filter = useTransform(hue, (h) => `hue-rotate(${h}deg)`);
-  const rotate = useTransform(gx, (v) => v * 0.3);
+  const rotate = useTransform(gx, (v) => v * 0.2);
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">

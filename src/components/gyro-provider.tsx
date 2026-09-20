@@ -38,19 +38,23 @@ export function GyroProvider({ children }: { children: ReactNode }) {
   const [readout, setReadout] = useState("");
   const requestRef = useRef<() => void>(() => undefined);
   const lastRead = useRef(0);
+  const baseRef = useRef<{ g: number; b: number } | null>(null);
 
   useEffect(() => {
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
 
     const tilt = (gamma: number, beta: number) => {
-      const g = Math.max(-18, Math.min(18, gamma));
-      const b = Math.max(-26, Math.min(26, beta));
-      rawX.set(g * 5);
-      rawY.set(-b * 3.4);
+      if (!baseRef.current) baseRef.current = { g: gamma, b: beta };
+      const base = baseRef.current;
+      const dg = Math.max(-14, Math.min(14, gamma - base.g));
+      const db = Math.max(-18, Math.min(18, beta - base.b));
+      rawX.set(dg * 2.2);
+      rawY.set(-db * 1.5);
+
       const now = performance.now();
       if (now - lastRead.current > 120) {
         lastRead.current = now;
-        setReadout(`g ${gamma.toFixed(1)}° b ${beta.toFixed(1)}°`);
+        setReadout(`d${dg.toFixed(1)}° d${db.toFixed(1)}°`);
       }
     };
     const onOrientation = (e: DeviceOrientationEvent) =>
@@ -59,9 +63,21 @@ export function GyroProvider({ children }: { children: ReactNode }) {
     const onPoint = (e: PointerEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      rawX.set(nx * (isCoarse ? 28 : 26));
-      rawY.set(ny * (isCoarse ? 20 : 18));
+      rawX.set(nx * (isCoarse ? 18 : 26));
+      rawY.set(ny * (isCoarse ? 14 : 18));
     };
+
+    let resetTimeout = 0;
+    const onReshape = () => {
+      rawX.set(0);
+      rawY.set(0);
+      baseRef.current = null;
+      resetTimeout = window.setTimeout(() => {
+        baseRef.current = null;
+      }, 1000);
+    };
+    window.addEventListener("orientationchange", onReshape);
+    window.visualViewport?.addEventListener("resize", onReshape);
 
     const DOEvt = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
       requestPermission?: () => Promise<"granted" | "denied" | "default">;
@@ -116,6 +132,9 @@ export function GyroProvider({ children }: { children: ReactNode }) {
 
       return () => {
         if (rafId) window.cancelAnimationFrame(rafId);
+        window.clearTimeout(resetTimeout);
+        window.removeEventListener("orientationchange", onReshape);
+        window.visualViewport?.removeEventListener("resize", onReshape);
         window.removeEventListener("pointermove", onPoint);
         window.removeEventListener("deviceorientation", onOrientation, true);
         window.removeEventListener(
@@ -130,7 +149,12 @@ export function GyroProvider({ children }: { children: ReactNode }) {
     }
 
     window.addEventListener("pointermove", onPoint, { passive: true });
-    return () => window.removeEventListener("pointermove", onPoint);
+    return () => {
+      window.clearTimeout(resetTimeout);
+      window.removeEventListener("orientationchange", onReshape);
+      window.visualViewport?.removeEventListener("resize", onReshape);
+      window.removeEventListener("pointermove", onPoint);
+    };
   }, [rawX, rawY]);
 
   return (

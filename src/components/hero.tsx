@@ -67,8 +67,8 @@ export function Hero() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const { gx, gy } = useGyro();
-  const hx = useTransform(gx, (v) => v * 1.25);
-  const hy = useTransform(gy, (v) => v * 0.85);
+  const hx = useTransform(gx, (v) => v * 0.9);
+  const hy = useTransform(gy, (v) => v * 0.6);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
