@@ -19,40 +19,40 @@ const accentBar: Record<string, string> = {
 };
 
 const RINGS = [
-  { chips: techMarquee.slice(0, 6), radius: 0.4, duration: 34, offset: 0 },
-  { chips: techMarquee.slice(6, 11), radius: 0.3, duration: 26, offset: 18 },
-  { chips: techMarquee.slice(11), radius: 0.2, duration: 20, offset: 36 },
+  { chips: techMarquee.slice(0, 6), frac: 0.44, duration: 34, offset: 24 },
+  { chips: techMarquee.slice(6, 11), frac: 0.33, duration: 26, offset: 48 },
+  { chips: techMarquee.slice(11), frac: 0.22, duration: 20, offset: 72 },
 ];
 
 function pointPct(r: number, deg: number) {
-  const rad = ((deg - 90 + r * 0) * Math.PI) / 180;
+  const rad = ((deg - 90) * Math.PI) / 180;
   return {
-    x: 50 + Math.cos(rad) * r * 50,
-    y: 50 + Math.sin(rad) * r * 50,
+    x: 50 + Math.cos(rad) * r * 100,
+    y: 50 + Math.sin(rad) * r * 100,
   };
 }
 
 function TechOrbit() {
   return (
     <div
-      className="relative mx-auto aspect-square w-[min(88vw,460px)]"
+      className="relative mx-auto mt-14 aspect-square w-[min(94vw,440px)] sm:w-[440px]"
       aria-label="Technology stack orbit"
       role="img"
     >
       <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-cyan shadow-[0_0_18px_rgba(34,211,238,0.9)]" />
 
-      {RINGS.map(({ radius, chips, duration, offset }) => (
-        <div key={radius} className="absolute inset-0">
+      {RINGS.map(({ chips, frac, duration, offset }) => (
+        <div key={frac} className="absolute inset-0">
           <div
             aria-hidden
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-edge/50"
-            style={{ width: `${radius * 100}%`, height: `${radius * 100}%` }}
+            style={{ width: `${frac * 100}%`, height: `${frac * 100}%` }}
           >
             <span
               className="absolute h-1.5 w-1.5 rounded-full bg-cyan/70 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
               style={{
-                left: `${50 + Math.cos(-Math.PI / 2) * 50}%`,
-                top: `${50 + Math.sin(-Math.PI / 2) * 50}%`,
+                left: `${50 + Math.cos(-Math.PI / 2) * frac * 100}%`,
+                top: `${50 + Math.sin(-Math.PI / 2) * frac * 100}%`,
                 transform: "translate(-50%, -50%)",
               }}
             />
@@ -63,7 +63,7 @@ function TechOrbit() {
           >
             {chips.map((chip, i) => {
               const { x, y } = pointPct(
-                radius,
+                frac,
                 offset + (i / chips.length) * 360
               );
               return (
@@ -73,7 +73,7 @@ function TechOrbit() {
                   style={{ left: `${x}%`, top: `${y}%` }}
                 >
                   <span
-                    className="animate-spin-reverse block whitespace-nowrap rounded-full border border-edge bg-elevated/90 px-2.5 py-1 font-mono text-[10px] text-muted transition-all duration-300 hover:border-cyan/60 hover:text-cyan hover:shadow-[0_0_16px_rgba(34,211,238,0.4)] sm:px-3 sm:py-1.5 sm:text-xs"
+                    className="animate-spin-reverse block whitespace-nowrap rounded-full border border-edge bg-elevated/90 px-2 py-0.5 font-mono text-[10px] leading-4 text-muted transition-all duration-300 hover:border-cyan/60 hover:text-cyan hover:shadow-[0_0_16px_rgba(34,211,238,0.4)] sm:px-3 sm:py-1 sm:text-xs"
                     style={{ animationDuration: `${duration}s` }}
                   >
                     {chip}
