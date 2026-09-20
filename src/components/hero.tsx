@@ -6,13 +6,11 @@ import {
   motion,
   useReducedMotion,
   useScroll,
-  useTransform,
 } from "framer-motion";
 import { ArrowDown, ArrowUpRight, MoveDownRight, Sparkles } from "lucide-react";
 import { profile } from "@/lib/data";
 import { Scene } from "@/components/three-scene";
 import { Magnetic } from "@/components/magnetic";
-import { useGyro } from "@/components/gyro-provider";
 
 const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -66,11 +64,6 @@ function RotatingRole() {
 export function Hero() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const { gx, gy } = useGyro();
-  const ab1x = useTransform(gx, (v) => v * 1.2);
-  const ab1y = useTransform(gy, (v) => v * 0.8);
-  const ab2x = useTransform(gx, (v) => v * -0.9);
-  const ab2y = useTransform(gy, (v) => v * 0.7);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -88,12 +81,8 @@ export function Hero() {
           <Scene progress={scrollYProgress} />
         ) : (
           <div className="absolute inset-0 overflow-hidden">
-            <motion.div style={{ x: ab1x, y: ab1y }}>
-              <div className="animate-aurora absolute -left-[15%] -top-[25%] h-[70vh] w-[60vw] rounded-full bg-cyan/15 blur-[110px]" />
-            </motion.div>
-            <motion.div style={{ x: ab2x, y: ab2y }}>
-              <div className="animate-aurora-delayed absolute bottom-[-20%] right-[-15%] h-[65vh] w-[55vw] rounded-full bg-violet/15 blur-[110px]" />
-            </motion.div>
+            <div className="animate-aurora absolute -left-[15%] -top-[25%] h-[70vh] w-[60vw] rounded-full bg-cyan/15 blur-[110px]" />
+            <div className="animate-aurora-delayed absolute bottom-[-20%] right-[-15%] h-[65vh] w-[55vw] rounded-full bg-violet/15 blur-[110px]" />
           </div>
         )}
         <div
