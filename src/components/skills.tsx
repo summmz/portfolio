@@ -18,82 +18,75 @@ const accentBar: Record<string, string> = {
   fuchsia: "from-fuchsia to-amber",
 };
 
-const SIZE = 460;
-const CENTER = SIZE / 2;
-
-const rings = [
-  { chips: techMarquee.slice(0, 6), radius: 200, duration: 34, ring: 0 },
-  { chips: techMarquee.slice(6, 11), radius: 145, duration: 26, ring: 1 },
-  { chips: techMarquee.slice(11), radius: 95, duration: 20, ring: 2 },
+const RINGS = [
+  { chips: techMarquee.slice(0, 6), radius: 0.4, duration: 34, offset: 0 },
+  { chips: techMarquee.slice(6, 11), radius: 0.3, duration: 26, offset: 18 },
+  { chips: techMarquee.slice(11), radius: 0.2, duration: 20, offset: 36 },
 ];
 
-function anglePoint(cx: number, cy: number, r: number, deg: number) {
-  const rad = ((deg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+function pointPct(r: number, deg: number) {
+  const rad = ((deg - 90 + r * 0) * Math.PI) / 180;
+  return {
+    x: 50 + Math.cos(rad) * r * 50,
+    y: 50 + Math.sin(rad) * r * 50,
+  };
 }
 
 function TechOrbit() {
   return (
     <div
-      className="relative mx-auto hidden h-[460px] w-[460px] md:block"
+      className="relative mx-auto aspect-square w-[min(88vw,460px)]"
       aria-label="Technology stack orbit"
       role="img"
     >
-      <div className="absolute left-1/2 top-1/2 h-[3px] w-[3px] -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-cyan shadow-[0_0_18px_rgba(34,211,238,0.9)]" />
+      <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-cyan shadow-[0_0_18px_rgba(34,211,238,0.9)]" />
 
-      {rings.map(({ radius, chips, duration, ring }) => {
-        const center = {
-          x: CENTER + radius * Math.cos(-Math.PI / 2),
-          y: CENTER + radius * Math.sin(-Math.PI / 2),
-        };
-        return (
-          <div key={ring} className="absolute inset-0">
-            <div
-              aria-hidden
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-edge/50"
-              style={{ width: radius * 2, height: radius * 2 }}
-            >
-              <span
-                className="absolute -left-1 -top-1 h-2 w-2 rounded-full bg-cyan/70 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
-                style={{
-                  left: center.x - 4,
-                  top: center.y - 4,
-                }}
-              />
-            </div>
-            <div
-              className="animate-spin-slower absolute inset-0"
-              style={{ animationDuration: `${duration}s` }}
-            >
-              {chips.map((chip, i) => {
-                const { x, y } = anglePoint(
-                  SIZE / 2,
-                  SIZE / 2,
-                  radius,
-                  (i / chips.length) * 360
-                );
-                return (
-                  <span
-                    key={chip}
-                    className="absolute -translate-x-1/2 -translate-y-1/2"
-                    style={{ left: x, top: y }}
-                  >
-                    <span
-                      className="animate-spin-reverse block whitespace-nowrap rounded-full border border-edge bg-elevated/90 px-3 py-1.5 font-mono text-xs text-muted shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:border-cyan/60 hover:text-cyan hover:shadow-[0_0_16px_rgba(34,211,238,0.4)]"
-                      style={{ animationDuration: `${duration}s` }}
-                    >
-                      {chip}
-                    </span>
-                  </span>
-                );
-              })}
-            </div>
+      {RINGS.map(({ radius, chips, duration, offset }) => (
+        <div key={radius} className="absolute inset-0">
+          <div
+            aria-hidden
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-edge/50"
+            style={{ width: `${radius * 100}%`, height: `${radius * 100}%` }}
+          >
+            <span
+              className="absolute h-1.5 w-1.5 rounded-full bg-cyan/70 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
+              style={{
+                left: `${50 + Math.cos(-Math.PI / 2) * 50}%`,
+                top: `${50 + Math.sin(-Math.PI / 2) * 50}%`,
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           </div>
-        );
-      })}
+          <div
+            className="animate-spin-slower absolute inset-0"
+            style={{ animationDuration: `${duration}s` }}
+          >
+            {chips.map((chip, i) => {
+              const { x, y } = pointPct(
+                radius,
+                offset + (i / chips.length) * 360
+              );
+              return (
+                <span
+                  key={chip}
+                  className="absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: `${x}%`, top: `${y}%` }}
+                >
+                  <span
+                    className="animate-spin-reverse block whitespace-nowrap rounded-full border border-edge bg-elevated/90 px-2.5 py-1 font-mono text-[10px] text-muted transition-all duration-300 hover:border-cyan/60 hover:text-cyan hover:shadow-[0_0_16px_rgba(34,211,238,0.4)] sm:px-3 sm:py-1.5 sm:text-xs"
+                    style={{ animationDuration: `${duration}s` }}
+                  >
+                    {chip}
+                  </span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      ))}
 
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-28 w-28 flex-col items-center justify-center rounded-full border border-cyan/30 bg-background/70 text-center backdrop-blur">
-        <span className="gradient-text font-display text-4xl font-bold">
+      <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-cyan/30 bg-background/70 text-center backdrop-blur sm:h-28 sm:w-28">
+        <span className="gradient-text font-display text-3xl font-bold sm:text-4xl">
           {techMarquee.length}
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-dim">
@@ -106,7 +99,7 @@ function TechOrbit() {
 
 function ChipCloud() {
   return (
-    <div className="flex flex-wrap justify-center gap-3 md:hidden">
+    <div className="flex flex-wrap justify-center gap-3">
       {techMarquee.map((tech, i) => (
         <Reveal key={tech} delay={i * 0.03}>
           <span className="rounded-full border border-edge bg-elevated px-4 py-2 font-mono text-xs text-muted">
@@ -162,9 +155,6 @@ export function Skills() {
         />
 
         {reduce ? <ChipCloud /> : <TechOrbit />}
-        <div className="md:hidden">
-          <ChipCloud />
-        </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((cat, i) => (

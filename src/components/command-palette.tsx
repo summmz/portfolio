@@ -61,8 +61,20 @@ export function CommandPalette() {
         setActive(0);
       }
     };
+    const onLauncher = () => {
+      setOpen(true);
+      setQuery("");
+      setActive(0);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("app:palette-toggle", onLauncher as EventListener);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener(
+        "app:palette-toggle",
+        onLauncher as EventListener
+      );
+    };
   }, []);
 
   useEffect(() => {

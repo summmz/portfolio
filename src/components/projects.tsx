@@ -3,7 +3,7 @@
 import type { CSSProperties, MouseEvent } from "react";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
@@ -70,16 +70,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-export function Projects() {
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-78%"]);
-
-  const heading = (
+function Heading() {
+  return (
     <div>
       <p className="mb-3 font-mono text-sm text-cyan">
         <span className="text-dim">{"//"}</span> 03 / selected work
@@ -92,7 +84,7 @@ export function Projects() {
           <span className="text-cyan">.</span>
         </h2>
         <a
-          href="https://github.com"
+          href="https://github.com/summmz"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-edge bg-elevated px-5 py-2.5 text-sm font-medium text-muted transition-colors hover:border-cyan/50 hover:text-foreground"
@@ -103,12 +95,36 @@ export function Projects() {
       </div>
     </div>
   );
+}
+
+function CloseCard() {
+  return (
+    <a href="#contact" className="group flex flex-col items-center gap-3 text-center">
+      <span className="flex h-20 w-20 items-center justify-center rounded-full border border-edge bg-elevated transition-all duration-300 group-hover:border-cyan/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]">
+        <ArrowRight className="h-7 w-7 text-cyan transition-transform duration-300 group-hover:translate-x-1" />
+      </span>
+      <span className="font-display text-xl font-semibold text-foreground group-hover:text-cyan">
+        Your project here?
+      </span>
+      <span className="text-sm text-muted">Let&apos;s make it real.</span>
+    </a>
+  );
+}
+
+export function Projects() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-78%"]);
 
   if (reduce) {
     return (
       <section id="projects" className="relative scroll-mt-24 py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-10">
-          {heading}
+          <Heading />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {projects.map((project, i) => (
               <Reveal key={project.title} delay={(i % 2) * 0.1}>
@@ -124,46 +140,68 @@ export function Projects() {
   return (
     <section
       id="projects"
-      ref={ref}
-      className="relative scroll-mt-0"
+      className="relative scroll-mt-24"
       aria-label="Selected projects"
-      style={{ height: "360vh" }}
     >
-      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
-        <div className="mx-auto w-full max-w-7xl px-5 sm:px-10">
-          <Reveal>{heading}</Reveal>
+      {/* Desktop: scrubbed horizontal rail */}
+      <div ref={ref} className="hidden md:block" style={{ height: "360vh" }}>
+        <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
+          <div className="mx-auto w-full max-w-7xl px-5 sm:px-10">
+            <Reveal>
+              <Heading />
+            </Reveal>
 
-          <motion.div style={{ x }} className="mt-12 flex gap-6">
-            {projects.map((project, i) => (
-              <div
-                key={project.title}
-                className="w-[78vw] shrink-0 sm:w-[420px]"
-                aria-label={project.title}
-              >
-                <ProjectCard project={project} index={i} />
+            <motion.div style={{ x }} className="mt-12 flex gap-6">
+              {projects.map((project, i) => (
+                <div
+                  key={project.title}
+                  className="w-[78vw] shrink-0 sm:w-[420px]"
+                  aria-label={project.title}
+                >
+                  <ProjectCard project={project} index={i} />
+                </div>
+              ))}
+              <div className="flex w-[320px] shrink-0 items-center justify-center sm:w-[420px]">
+                <CloseCard />
               </div>
-            ))}
-            <div className="flex w-[320px] shrink-0 items-center justify-center sm:w-[420px]">
-              <a
-                href="#contact"
-                className="group flex flex-col items-center gap-3 text-center"
-              >
-                <span className="flex h-20 w-20 items-center justify-center rounded-full border border-edge bg-elevated transition-all duration-300 group-hover:border-cyan/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-                  <ArrowRight className="h-7 w-7 text-cyan transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-                <span className="font-display text-xl font-semibold text-foreground group-hover:text-cyan">
-                  Your project here?
-                </span>
-                <span className="text-sm text-muted">Let&apos;s make it real.</span>
-              </a>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          <motion.div
-            style={{ scaleX: scrollYProgress }}
-            className="mx-auto mt-10 h-px w-[min(60vw,420px)] origin-left bg-gradient-to-r from-cyan via-violet to-fuchsia"
-          />
+            <motion.div
+              style={{ scaleX: scrollYProgress }}
+              className="mx-auto mt-10 h-px w-[min(60vw,420px)] origin-left bg-gradient-to-r from-cyan via-violet to-fuchsia"
+            />
+          </div>
         </div>
+      </div>
+
+      {/* Mobile / tablet: native swipe carousel */}
+      <div className="mx-auto max-w-6xl px-5 py-24 md:hidden">
+        <Reveal>
+          <Heading />
+        </Reveal>
+
+        <div
+          className="mt-10 -mr-5 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {projects.map((project, i) => (
+            <div
+              key={project.title}
+              className="w-[80vw] max-w-sm shrink-0 snap-center"
+              aria-label={project.title}
+            >
+              <ProjectCard project={project} index={i} />
+            </div>
+          ))}
+          <div className="flex w-[60vw] max-w-[240px] shrink-0 snap-center items-center justify-center">
+            <CloseCard />
+          </div>
+        </div>
+
+        <p className="mt-2 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-dim">
+          <MoveRight className="h-3.5 w-3.5 text-cyan" />
+          swipe through the work
+        </p>
       </div>
     </section>
   );

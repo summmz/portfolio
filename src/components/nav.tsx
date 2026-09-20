@@ -7,7 +7,7 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Search } from "lucide-react";
 import { navLinks, profile } from "@/lib/data";
 import { Magnetic } from "@/components/magnetic";
 
@@ -18,6 +18,10 @@ export function Nav() {
   const [activeId, setActiveId] = useState("home");
   const prevY = useRef(0);
   const { scrollY } = useScroll();
+
+  const openPalette = () => {
+    window.dispatchEvent(new CustomEvent("app:palette-toggle"));
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 24);
@@ -69,9 +73,9 @@ export function Nav() {
             className="group flex items-center gap-2 font-display text-lg font-bold tracking-tight"
           >
             <span className="gradient-text text-xl transition-transform duration-300 group-hover:rotate-12 inline-block">
-              A
+              {profile.firstName.charAt(0)}
             </span>
-            <span className="hidden sm:inline">{profile.firstName}</span>
+            <span>{profile.firstName}</span>
             <span className="text-cyan">.</span>
           </a>
 
@@ -110,16 +114,36 @@ export function Nav() {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             </Magnetic>
+            <button
+              type="button"
+              onClick={openPalette}
+              data-cursor="⌘K"
+              aria-label="Open command palette"
+              className="ml-2 hidden items-center gap-1.5 rounded-full border border-edge bg-elevated/60 px-3 py-2 font-mono text-[11px] text-dim transition-colors hover:border-cyan/50 hover:text-cyan sm:inline-flex lg:inline-flex"
+            >
+              <Search className="h-3.5 w-3.5" />
+              ⌘K
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-edge bg-elevated text-foreground md:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={openPalette}
+              aria-label="Open command palette"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-edge bg-elevated text-foreground"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-edge bg-elevated text-foreground"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
@@ -181,6 +205,22 @@ export function Nav() {
                 transition={{ delay: 0.4 }}
                 className="mt-auto space-y-2"
               >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openPalette();
+                  }}
+                  className="group flex w-full items-center justify-between rounded-xl border border-edge bg-elevated/60 px-4 py-3 text-left transition-colors hover:border-cyan/50"
+                >
+                  <span className="flex items-center gap-3 text-sm font-medium text-foreground">
+                    <Search className="h-4 w-4 text-cyan" />
+                    Command palette
+                  </span>
+                  <span className="rounded border border-edge px-1.5 py-0.5 font-mono text-[10px] text-dim">
+                    ⌘K
+                  </span>
+                </button>
                 <p className="font-mono text-xs text-dim">Get in touch</p>
                 <a
                   href={`mailto:${profile.email}`}
