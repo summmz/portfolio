@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/motion-provider";
-import { GyroProvider } from "@/components/gyro-provider";
 import { Background } from "@/components/background";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { Preloader } from "@/components/preloader";
@@ -93,18 +92,16 @@ export default function RootLayout({
           Skip to content
         </a>
         <MotionProvider>
-          <GyroProvider>
-            <Preloader />
-            <Background />
-            <ScrollProgress />
-            <CustomCursor />
-            <SectionRail />
-            <Nav />
-            {children}
-            <CommandPalette />
-            <EasterEggs />
-            <CopyToast />
-          </GyroProvider>
+          <Preloader />
+          <Background />
+          <ScrollProgress />
+          <CustomCursor />
+          <SectionRail />
+          <Nav />
+          {children}
+          <CommandPalette />
+          <EasterEggs />
+          <CopyToast />
         </MotionProvider>
       </body>
     </html>
