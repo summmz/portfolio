@@ -1,4 +1,4 @@
-import { ArrowUp, AtSign, Code2, Heart, Palette, Share2, type LucideIcon } from "lucide-react";
+import { ArrowUp, AtSign, Camera, Code2, Heart, Palette, Share2, type LucideIcon } from "lucide-react";
 import { navLinks, profile } from "@/lib/data";
 
 const socialIcons: Record<string, LucideIcon> = {
@@ -6,6 +6,7 @@ const socialIcons: Record<string, LucideIcon> = {
   LinkedIn: Share2,
   X: AtSign,
   Dribbble: Palette,
+  Instagram: Camera,
 };
 
 export function Footer() {

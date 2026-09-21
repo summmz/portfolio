@@ -23,7 +23,10 @@ export const profile = {
     { label: "Months building in public", value: 15, suffix: "+" },
     { label: "Programming languages", value: 3, suffix: "" },
   ],
-  socials: [{ label: "GitHub", href: "https://github.com/summmz" }],
+  socials: [
+    { label: "GitHub", href: "https://github.com/summmz" },
+    { label: "Instagram", href: "https://www.instagram.com/summie.eee/" },
+  ],
 };
 
 export type SkillCategory = {
