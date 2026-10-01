@@ -143,27 +143,7 @@ export const projects: Project[] = [
     gradient: "from-lime-500/25 via-amber-400/10 to-transparent",
     featured: false,
   },
-  {
-    title: "us",
-    description:
-      "A polished TypeScript web experience, built and shipped live on Vercel.",
-    tags: ["TypeScript", "Vercel"],
-    href: "https://github.com/summmz/us",
-    icon: "users",
-    gradient: "from-cyan-500/25 via-violet-400/10 to-transparent",
-    featured: false,
-  },
-  {
-    title: "pulse",
-    description:
-      "My latest work-in-progress — exploring real-time interactions in TypeScript.",
-    tags: ["TypeScript", "In progress"],
-    href: "https://github.com/summmz/pulse",
-    icon: "activity",
-    gradient: "from-amber-500/25 via-amber-400/10 to-transparent",
-    featured: false,
-  },
-];
+  ];
 
 export type Experience = {
   company: string;

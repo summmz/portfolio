@@ -118,7 +118,7 @@ export function Projects() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-78%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-58%"]);
 
   if (reduce) {
     return (
@@ -144,7 +144,7 @@ export function Projects() {
       aria-label="Selected projects"
     >
       {/* Desktop: scrubbed horizontal rail */}
-      <div ref={ref} className="hidden md:block" style={{ height: "360vh" }}>
+      <div ref={ref} className="hidden md:block" style={{ height: "260vh" }}>
         <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-10">
             <Reveal>
